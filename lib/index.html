@@ -17,7 +17,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text); overflow: hidden; }
 
-        /* Contenedor principal */
         #app { display: flex; flex-direction: column; height: 100vh; width: 100%; }
 
         /* Área de Chat */
@@ -33,8 +32,8 @@
         .chat-content { width: 100%; max-width: 800px; padding: 0 20px; }
 
         .message { margin-bottom: 30px; line-height: 1.6; font-size: 1rem; position: relative; width: 100%; }
-        .user-msg { font-weight: 500; text-align: right; color: #fff; background: #333; padding: 10px 15px; border-radius: 15px; display: inline-block; float: right; clear: both; }
-        .ai-msg { text-align: left; clear: both; padding-top: 10px; }
+        .user-msg { font-weight: 500; text-align: right; color: #fff; background: #333; padding: 12px 18px; border-radius: 18px; display: inline-block; float: right; clear: both; }
+        .ai-msg { text-align: left; clear: both; padding-top: 10px; white-space: pre-wrap; }
 
         /* Bloques de Código */
         pre {
@@ -42,55 +41,56 @@
             padding: 15px;
             border-radius: 8px;
             overflow-x: auto;
-            margin: 10px 0;
+            margin: 15px 0;
             position: relative;
             border: 1px solid var(--border);
         }
-        code { font-family: 'Courier New', Courier, monospace; color: #f8f8f2; }
+        code { font-family: 'Consolas', monospace; color: #f8f8f2; font-size: 0.9rem; }
         .copy-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 8px;
+            right: 8px;
             background: #444;
-            color: #ccc;
+            color: #eee;
             border: none;
-            padding: 4px 8px;
-            font-size: 10px;
+            padding: 5px 10px;
+            font-size: 11px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 5px;
+            transition: background 0.2s;
         }
-        .copy-btn:hover { background: var(--accent); color: white; }
+        .copy-btn:hover { background: var(--accent); }
 
-        /* Barra de entrada centralizada */
+        /* Barra de entrada mejorada y más alta */
         .input-area {
             width: 100%;
             max-width: 850px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px 40px 20px; /* Más espacio abajo para subir la barra */
             position: relative;
         }
 
         .search-bar {
             background-color: var(--input-bg);
             border: 1px solid var(--border);
-            border-radius: 30px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            padding: 5px 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
 
-        /* Selector de IA a la izquierda */
         .ai-selector {
-            background: transparent;
-            border: none;
-            color: var(--accent);
-            font-weight: 600;
+            background: #3e3f4b;
+            border: 1px solid #555;
+            color: white;
+            font-weight: 500;
             outline: none;
             cursor: pointer;
-            padding-right: 15px;
-            border-right: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 10px;
             margin-right: 15px;
+            font-size: 0.85rem;
         }
 
         #user-input {
@@ -98,26 +98,30 @@
             background: transparent;
             border: none;
             color: white;
-            padding: 15px 0;
+            padding: 12px 0;
             font-size: 16px;
             outline: none;
         }
 
-        /* Botón Lupa a la derecha */
+        /* Botón Enviar (Avión) */
         .send-btn {
-            background: none;
+            background-color: var(--accent);
             border: none;
             cursor: pointer;
-            padding: 10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: 10px;
+            transition: transform 0.2s, opacity 0.2s;
         }
 
-        .send-btn svg { fill: var(--text); width: 20px; height: 20px; transition: fill 0.2s; }
-        .send-btn:hover svg { fill: var(--accent); }
+        .send-btn:hover { transform: scale(1.05); opacity: 0.9; }
+        .send-btn svg { fill: white; width: 18px; height: 18px; }
 
-        .welcome-text { text-align: center; margin-top: 20vh; opacity: 0.5; font-size: 1.5rem; }
+        .welcome-text { text-align: center; margin-top: 25vh; opacity: 0.7; font-size: 1.8rem; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -125,7 +129,7 @@
 <div id="app">
     <div id="chat-container">
         <div class="chat-content" id="chat-content">
-            <div class="welcome-text" id="welcome">¿Cómo puedo ayudarte hoy?</div>
+            <div class="welcome-text" id="welcome">Xyzz AI</div>
         </div>
     </div>
 
@@ -136,13 +140,13 @@
                 <option value="gemini">Gemini</option>
             </select>
 
-            <input type="text" id="user-input" placeholder="Pregunta a Xyzz AI..." autocomplete="off">
+            <input type="text" id="user-input" placeholder="Escribe un término..." autocomplete="off">
 
             <button class="send-btn" onclick="handleSend()">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
         </div>
-        <p style="text-align: center; font-size: 10px; color: #666; margin-top: 10px;">Xyzz AI puede cometer errores. Verifica la información.</p>
+        <p style="text-align: center; font-size: 11px; color: #888; margin-top: 15px;">Potenciado por Xyzz AI - Selecciona un modelo y comienza.</p>
     </div>
 </div>
 
@@ -159,12 +163,12 @@
         const model = modelSelect.value;
         if (!text) return;
 
-        if (welcome) welcome.remove();
+        if (welcome) welcome.style.display = 'none';
 
         appendMessage('user', text);
         userInput.value = '';
 
-        const aiMsgDiv = appendMessage('ai', 'Escribiendo...');
+        const aiMsgDiv = appendMessage('ai', 'Procesando...');
 
         try {
             const res = await fetch('/api/chat', {
@@ -176,27 +180,36 @@
             
             aiMsgDiv.innerHTML = formatAIResponse(data.text);
         } catch (err) {
-            aiMsgDiv.innerText = "Error de conexión.";
+            aiMsgDiv.innerText = "Error: No se pudo obtener respuesta.";
         }
     }
 
     function appendMessage(role, text) {
         const div = document.createElement('div');
         div.className = `message ${role}-msg`;
-        div.innerText = text;
+        if (role === 'ai') {
+            div.innerText = text;
+        } else {
+            div.innerText = text;
+        }
         chatContent.appendChild(div);
-        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
+        const container = document.getElementById('chat-container');
+        container.scrollTop = container.scrollHeight;
         return div;
     }
 
     function formatAIResponse(text) {
         
+        let formatted = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        
         const codeRegex = /```([\s\S]*?)```/g;
-        return text.replace(codeRegex, (match, code) => {
+        return formatted.replace(codeRegex, (match, code) => {
+            
+            const cleanCode = code.replace(/^[a-z]+\n/i, "");
             return `
                 <pre>
                     <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-                    <code>${code.trim()}</code>
+                    <code>${cleanCode.trim()}</code>
                 </pre>
             `;
         });
@@ -206,9 +219,13 @@
         const code = btn.nextElementSibling.innerText;
         navigator.clipboard.writeText(code);
         btn.innerText = "¡Copiado!";
-        setTimeout(() => { btn.innerText = "Copiar"; }, 2000);
+        btn.style.background = "#10a37f";
+        setTimeout(() => { 
+            btn.innerText = "Copiar"; 
+            btn.style.background = "#444";
+        }, 2000);
     }
 </script>
 
 </body>
-    </html>
+                </html>
