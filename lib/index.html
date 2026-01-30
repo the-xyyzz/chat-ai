@@ -3,60 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xyzz AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Xyzz AI | Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #212121;
+            --bg-sidebar: #171717;
             --input-bg: #2f2f2f;
             --accent: #10a37f;
             --text: #ececf1;
+            --border: rgba(255,255,255,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-        #app { display: flex; flex-direction: column; height: 100vh; width: 100%; }
+        /* Sidebar */
+        #sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
 
-        /* Contenedor de mensajes */
+        .new-chat-btn {
+            border: 1px solid var(--border);
+            background: transparent;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .new-chat-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+        /* Contenedor Principal */
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
         #chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 0;
+            padding: 40px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .chat-content { width: 100%; max-width: 700px; padding: 0 20px; }
+        .chat-content { width: 100%; max-width: 750px; padding: 0 20px; }
 
-        .message { margin-bottom: 25px; line-height: 1.6; clear: both; }
-        .user-msg { float: right; background: #333; padding: 12px 18px; border-radius: 20px; max-width: 80%; }
-        .ai-msg { float: left; width: 100%; padding: 10px 0; white-space: pre-wrap; }
+        /* Burbujas de Chat */
+        .message { margin-bottom: 30px; line-height: 1.6; display: flex; flex-direction: column; }
+        .user-msg { align-self: flex-end; background: var(--input-bg); padding: 12px 20px; border-radius: 20px; max-width: 85%; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .ai-msg-container { align-self: flex-start; width: 100%; display: flex; gap: 15px; }
+        .ai-avatar { width: 30px; height: 30px; border-radius: 4px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
+        .ai-msg { flex: 1; padding-top: 5px; white-space: pre-wrap; }
 
-        /* Bloques de Código */
-        pre { background: #000; padding: 15px; border-radius: 10px; position: relative; margin: 10px 0; border: 1px solid #444; }
-        code { font-family: monospace; color: #f8f8f2; }
-        .copy-btn { position: absolute; top: 10px; right: 10px; background: #444; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        /* Código */
+        pre { background: #000; padding: 15px; border-radius: 10px; position: relative; margin: 15px 0; border: 1px solid var(--border); overflow-x: auto; }
+        code { font-family: 'Consolas', monospace; color: #4af626; font-size: 14px; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: #333; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
 
-        /* BURBUJA DE CHAT FLOTANTE (Subida) */
-        .input-wrapper {
+        /* Barra de Entrada Flotante */
+        .bottom-container {
             width: 100%;
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 0 20px;
-            /* Aquí es donde la subimos */
-            margin-bottom: 10vh; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
         }
 
         .bubble-input {
-            background-color: var(--input-bg);
-            border-radius: 30px;
+            width: 90%;
+            max-width: 750px;
+            background: var(--input-bg);
+            border-radius: 24px;
             display: flex;
             align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border: 1px solid #444;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .ai-selector {
@@ -64,10 +102,11 @@
             border: none;
             color: white;
             padding: 8px 12px;
-            border-radius: 15px;
-            margin-right: 15px;
+            border-radius: 12px;
+            margin-right: 12px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         #user-input {
@@ -75,7 +114,7 @@
             background: transparent;
             border: none;
             color: white;
-            padding: 10px 0;
+            padding: 12px 0;
             outline: none;
             font-size: 16px;
         }
@@ -83,31 +122,44 @@
         .send-btn {
             background: var(--accent);
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-left: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.2s;
         }
 
-        .send-btn svg { fill: white; width: 20px; height: 20px; }
+        .send-btn:hover { opacity: 0.8; transform: scale(1.05); }
 
-        .welcome { text-align: center; margin-top: 20vh; font-size: 2rem; font-weight: 600; }
+        .welcome { text-align: center; margin-top: 25vh; opacity: 0.8; }
+        .welcome h1 { font-size: 2.5rem; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div id="app">
+<aside id="sidebar">
+    <button class="new-chat-btn" onclick="createNewChat()">
+        <span>+</span> Nuevo Chat
+    </button>
+    <div style="margin-top: auto; padding: 10px; font-size: 12px; opacity: 0.5;">
+        Xyzz AI v2.0
+    </div>
+</aside>
+
+<main id="main-content">
     <div id="chat-container">
         <div class="chat-content" id="chat-content">
-            <div class="welcome" id="welcome">Xyzz AI</div>
+            <div class="welcome" id="welcome">
+                <h1>Xyzz AI</h1>
+                <p>Elige una IA y comienza a crear.</p>
+            </div>
         </div>
     </div>
 
-    <div class="input-wrapper">
+    <div class="bottom-container">
         <div class="bubble-input">
             <select class="ai-selector" id="model-select">
                 <option value="chatgpt">ChatGPT</option>
@@ -117,11 +169,11 @@
             <input type="text" id="user-input" placeholder="Escribe un término..." autocomplete="off">
             
             <button class="send-btn" onclick="handleSend()">
-                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
         </div>
     </div>
-</div>
+</main>
 
 <script>
     const chatContent = document.getElementById('chat-content');
@@ -131,17 +183,32 @@
 
     userInput.addEventListener("keypress", (e) => { if (e.key === "Enter") handleSend(); });
 
+    function createNewChat() {
+        chatContent.innerHTML = `
+            <div class="welcome" id="welcome">
+                <h1>Xyzz AI</h1>
+                <p>Elige una IA y comienza a crear.</p>
+            </div>
+        `;
+        userInput.focus();
+    }
+
     async function handleSend() {
         const text = userInput.value.trim();
         const model = modelSelect.value;
+        const modelName = model === 'chatgpt' ? 'GPT' : 'GEM';
+        
         if (!text) return;
 
-        if (welcome) welcome.style.display = 'none';
+        const welcomeMsg = document.getElementById('welcome');
+        if (welcomeMsg) welcomeMsg.remove();
 
-        appendMessage('user', text);
+        // Mensaje Usuario
+        appendUserMessage(text);
         userInput.value = '';
 
-        const aiMsgDiv = appendMessage('ai', 'Pensando...');
+        // Placeholder IA
+        const aiMsgId = appendAiPlaceholder(modelName);
 
         try {
             const res = await fetch('/api/chat', {
@@ -150,35 +217,63 @@
                 body: JSON.stringify({ message: text, model: model })
             });
             const data = await res.json();
-            aiMsgDiv.innerHTML = formatAIResponse(data.text);
+            updateAiMessage(aiMsgId, data.text);
         } catch (err) {
-            aiMsgDiv.innerText = "Error al conectar.";
+            updateAiMessage(aiMsgId, "Error de conexión con la API.");
         }
     }
 
-    function appendMessage(role, text) {
+    function appendUserMessage(text) {
         const div = document.createElement('div');
-        div.className = `message ${role}-msg`;
-        div.innerText = text;
+        div.className = 'message';
+        div.innerHTML = `<div class="user-msg">${text}</div>`;
         chatContent.appendChild(div);
-        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
-        return div;
+        scrollChat();
+    }
+
+    function appendAiPlaceholder(label) {
+        const id = 'ai-' + Date.now();
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.innerHTML = `
+            <div class="ai-msg-container">
+                <div class="ai-avatar">${label}</div>
+                <div class="ai-msg" id="${id}">...</div>
+            </div>
+        `;
+        chatContent.appendChild(div);
+        scrollChat();
+        return id;
+    }
+
+    function updateAiMessage(id, text) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerHTML = formatAIResponse(text);
+        }
+        scrollChat();
     }
 
     function formatAIResponse(text) {
         const codeRegex = /```([\s\S]*?)```/g;
         return text.replace(codeRegex, (match, code) => {
-            return `<pre><button class="copy-btn" onclick="copyCode(this)">Copiar</button><code>${code.trim()}</code></pre>`;
+            const cleanCode = code.replace(/^[a-z]+\n/i, "");
+            return `<pre><button class="copy-btn" onclick="copyCode(this)">Copiar</button><code>${cleanCode.trim()}</code></pre>`;
         });
     }
 
     function copyCode(btn) {
         const code = btn.nextElementSibling.innerText;
         navigator.clipboard.writeText(code);
-        btn.innerText = "¡Listo!";
+        btn.innerText = "¡Copiado!";
         setTimeout(() => { btn.innerText = "Copiar"; }, 2000);
+    }
+
+    function scrollChat() {
+        const container = document.getElementById('chat-container');
+        container.scrollTop = container.scrollHeight;
     }
 </script>
 
 </body>
-                                             </html>
+</html>
