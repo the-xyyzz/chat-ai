@@ -19,14 +19,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); overflow: hidden; display: flex; }
 
-
+        
         #sidebar {
             position: fixed; left: -280px; top: 0; width: 280px; height: 100%;
             background: var(--sidebar-bg); z-index: 1000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border-right: 1px solid var(--border); padding: 15px; display: flex; flex-direction: column;
         }
         #sidebar.open { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
-
 
         #history-list { flex: 1; overflow-y: auto; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
         .history-item {
@@ -35,8 +34,7 @@
             border: 1px solid transparent; transition: 0.2s;
         }
         .history-item:hover { background: rgba(255,255,255,0.08); }
-        .history-text { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .delete-btn { background: none; border: none; color: #555; cursor: pointer; padding: 5px; transition: 0.2s; }
+        .delete-btn { background: none; border: none; color: #555; cursor: pointer; padding: 5px; }
         .delete-btn:hover { color: var(--danger); }
 
         #overlay {
@@ -50,56 +48,72 @@
             background: var(--sidebar-bg); border: 1px solid var(--border); padding: 12px; border-radius: 12px;
         }
 
-        /* CHAT UI */
+        
         #main-content { flex: 1; height: 100vh; display: flex; flex-direction: column; align-items: center; position: relative; }
         #chat-container { flex: 1; width: 100%; overflow-y: auto; padding: 100px 20px 180px 20px; }
         .chat-wrapper { max-width: 800px; margin: 0 auto; }
 
-        .msg-row { margin-bottom: 30px; display: flex; flex-direction: column; }
-        .msg-user { background: #2f2f2f; padding: 14px 20px; border-radius: 20px 20px 4px 20px; margin-left: auto; max-width: 85%; }
-        .msg-ai { display: flex; gap: 15px; width: 100%; }
-        .ai-icon-box { min-width: 38px; height: 38px; border-radius: 10px; background: white; display: flex; align-items: center; justify-content: center; }
+        .msg-row { margin-bottom: 35px; display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* BURBUJA DE ENTRADA MULTIMEDIA */
-        .input-floating-zone { position: fixed; bottom: 35px; width: 95%; max-width: 800px; z-index: 100; }
+        .msg-user { background: #2f2f2f; padding: 14px 22px; border-radius: 20px 20px 4px 20px; margin-left: auto; max-width: 85%; border: 1px solid var(--border); }
+        
+        .msg-ai { display: flex; gap: 18px; width: 100%; align-items: flex-start; }
+        
+        
+        .ai-icon-circle { 
+            min-width: 40px; height: 40px; border-radius: 50%; 
+            background: white; display: flex; align-items: center; 
+            justify-content: center; overflow: hidden; padding: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .ai-icon-circle svg { width: 100%; height: 100%; }
+
+        .ai-text { flex: 1; line-height: 1.7; font-size: 15px; padding-top: 6px; }
+
+        
+        .input-floating-zone { position: fixed; bottom: 40px; width: 92%; max-width: 800px; z-index: 100; }
         .input-bubble {
-            background: rgba(28, 28, 28, 0.9); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 28px; padding: 8px 15px;
-            display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: rgba(24, 24, 24, 0.9); backdrop-filter: blur(25px);
+            border: 1px solid var(--border); border-radius: 30px; padding: 8px 18px;
+            display: flex; align-items: center; gap: 12px; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
 
-        .media-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; color: #aaa; transition: 0.2s; }
-        .media-btn:hover { color: white; }
+        .media-btn { background: none; border: none; cursor: pointer; color: #888; transition: 0.2s; }
+        .media-btn:hover { color: white; transform: scale(1.1); }
 
-        .ai-select-custom { background: #333; border: none; color: white; padding: 8px 12px; border-radius: 14px; font-weight: 600; font-size: 12px; cursor: pointer; }
+        .ai-select-custom { background: #333; border: none; color: white; padding: 9px 14px; border-radius: 18px; font-weight: 600; font-size: 13px; cursor: pointer; }
         
-        #user-input { flex: 1; background: transparent; border: none; color: white; font-size: 16px; outline: none; padding: 10px; }
+        #user-input { flex: 1; background: transparent; border: none; color: white; font-size: 16px; outline: none; padding: 12px 5px; }
         
-        .btn-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-send { background: var(--accent); border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .btn-send:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
 
-        /* Ocultar input file original */
         #file-input { display: none; }
+
+        pre { background: #000; border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin: 15px 0; position: relative; overflow-x: auto; }
+        .copy-tag { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); color: #ccc; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 11px; }
     </style>
 </head>
 <body>
 
     <div id="overlay" onclick="toggleMenu()"></div>
     <div class="menu-toggle" onclick="toggleMenu()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </div>
 
     <aside id="sidebar">
-        <h2 style="margin: 40px 0 20px 0; color: var(--accent);">Xyzz AI</h2>
-        <button onclick="newChat()" style="background: white; color: black; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 700;">+ Nuevo Chat</button>
+        <h2 style="margin: 40px 0 25px 0; color: var(--accent); font-weight: 800; letter-spacing: -1px;">Xyzz AI</h2>
+        <button onclick="newChat()" style="background: white; color: black; border: none; padding: 15px; border-radius: 14px; cursor: pointer; font-weight: 700; margin-bottom: 20px;">+ Nuevo Chat</button>
         <div id="history-list"></div>
     </aside>
 
     <main id="main-content">
         <div id="chat-container">
             <div class="chat-wrapper" id="chat-flow">
-                <div style="text-align: center; margin-top: 20vh;" id="empty-state">
-                    <h1>Xyzz AI</h1>
-                    <p style="opacity: 0.4;">Sube archivos, envía audio o chatea.</p>
+                <div style="text-align: center; margin-top: 22vh;" id="empty-state">
+                    <h1 style="font-size: 3.5rem; letter-spacing: -2px; margin-bottom: 10px;">Xyzz AI</h1>
+                    <p style="opacity: 0.4; font-size: 1.1rem;">Selecciona tu modelo y comencemos.</p>
                 </div>
             </div>
         </div>
@@ -111,7 +125,7 @@
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path></svg>
                 </button>
 
-                <button class="media-btn" onclick="alert('Grabando audio...')">
+                <button class="media-btn" onclick="alert('Grabando...')">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"></path><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"></path></svg>
                 </button>
 
@@ -123,7 +137,7 @@
                 <input type="text" id="user-input" placeholder="Escribe un término..." autocomplete="off">
 
                 <button class="btn-send" onclick="handleAction()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
         </div>
@@ -131,12 +145,12 @@
 
     <script>
         const LOGOS = {
-            chatgpt: `<svg viewBox="0 0 24 24" width="24" height="24"><path d="M22.28 9.82a6 6 0 00-5-8.03 6 6 0 00-5.18 1.25 6 6 0 00-7.48-1.28 6 6 0 00-1.85 9.66 6 6 0 001.15 5.13 6 6 0 004.45 3.12 6 6 0 005.18-1.25 6 6 0 007.48 1.28 6 6 0 001.85-9.66z" fill="#10a37f"/></svg>`,
-            gemini: `<svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 24c-.2 0-.3-.1-.4-.3-1.3-4.1-4.6-7.4-8.7-8.7-.3-.1-.3-.4 0-.5 4.1-1.3 7.4-4.6 8.7-8.7.1-.3.4-.3.5 0 1.3 4.1 4.6 7.4 8.7 8.7.3.1.3.4 0 .5-4.1 1.3-7.4 4.6-8.7 8.7-.1.2-.2.3-.4.3z" fill="#4285F4"/></svg>`
+            chatgpt: `<svg viewBox="0 0 24 24"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5153-4.9066 6.0462 6.0462 0 0 0-4.4471-3.1243 6.086 6.086 0 0 0-5.1864 1.2501 6.059 6.059 0 0 0-2.4398-1.5783 6.097 6.097 0 0 0-5.0458.2941 6.052 6.052 0 0 0-3.0046 4.5323 6.086 6.086 0 0 0 1.1477 5.1321a5.9847 5.9847 0 0 0 .5153 4.9066 6.0462 6.0462 0 0 0 4.4471 3.1243 6.086 6.086 0 0 0 5.1864-1.2501 6.059 6.059 0 0 0 2.4398 1.5783 6.097 6.097 0 0 0 5.0458-.2941 6.052 6.052 0 0 0 3.0046-4.5323 6.086 6.086 0 0 0-1.1477-5.1321z" fill="#10a37f"/></svg>`,
+            gemini: `<svg viewBox="0 0 24 24"><path d="M12 24c-.2 0-.3-.1-.4-.3-1.3-4.1-4.6-7.4-8.7-8.7-.3-.1-.3-.4 0-.5 4.1-1.3 7.4-4.6 8.7-8.7.1-.3.4-.3.5 0 1.3 4.1 4.6 7.4 8.7 8.7.3.1.3.4 0 .5-4.1 1.3-7.4 4.6-8.7 8.7-.1.2-.2.3-.4.3z" fill="#4285F4"/></svg>`
         };
 
         let chats = JSON.parse(localStorage.getItem('xyzz_chats')) || {};
-        let currentChatId = Date.now();
+        let currentId = Date.now();
 
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('open');
@@ -151,10 +165,8 @@
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `
-                    <div class="history-text" onclick="loadChat('${id}')">${chats[id].title}</div>
-                    <button class="delete-btn" onclick="deleteChat('${id}')">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    </button>
+                    <div style="flex:1; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap" onclick="loadChat('${id}')">${chats[id].title}</div>
+                    <button class="delete-btn" onclick="deleteChat('${id}')">✕</button>
                 `;
                 list.appendChild(item);
             });
@@ -164,31 +176,28 @@
             delete chats[id];
             localStorage.setItem('xyzz_chats', JSON.stringify(chats));
             renderHistory();
-            if (currentChatId == id) newChat();
+            if(id == currentId) newChat();
         }
 
         function newChat() {
-            currentChatId = Date.now();
-            document.getElementById('chat-flow').innerHTML = '<div style="text-align: center; margin-top: 20vh;"><h1>Nuevo Chat</h1></div>';
-            if (document.getElementById('sidebar').classList.contains('open')) toggleMenu();
+            currentId = Date.now();
+            document.getElementById('chat-flow').innerHTML = '<div style="text-align: center; margin-top: 22vh;"><h1>Xyzz AI</h1></div>';
+            if(document.getElementById('sidebar').classList.contains('open')) toggleMenu();
         }
 
         function loadChat(id) {
-            currentChatId = id;
+            currentId = id;
             const flow = document.getElementById('chat-flow');
             flow.innerHTML = '';
-            chats[id].messages.forEach(msg => {
-                if(msg.role === 'user') appendUserUI(msg.text);
-                else appendAiUI(msg.model, msg.text);
+            chats[id].messages.forEach(m => {
+                if(m.role === 'user') appendUserUI(m.text);
+                else appendAiUI(m.model, m.text);
             });
             toggleMenu();
         }
 
-        function handleFile(input) {
-            if (input.files[0]) {
-                appendUserUI(`📎 Archivo adjunto: ${input.files[0].name}`);
-                scrollChat();
-            }
+        function handleFile(i) {
+            if(i.files[0]) appendUserUI(`📎 Archivo: ${i.files[0].name}`);
         }
 
         async function handleAction() {
@@ -198,14 +207,14 @@
             if(!text) return;
 
             if(document.getElementById('empty-state')) document.getElementById('empty-state').remove();
-            if(!chats[currentChatId]) chats[currentChatId] = { title: text, messages: [] };
+            if(!chats[currentId]) chats[currentId] = { title: text, messages: [] };
 
             appendUserUI(text);
-            chats[currentChatId].messages.push({ role: 'user', text });
+            chats[currentId].messages.push({ role: 'user', text });
             input.value = '';
 
-            const aiId = 'ai-' + Date.now();
-            appendAiUI(model, "...", aiId);
+            const aiMsgId = 'ai-' + Date.now();
+            appendAiUI(model, "Pensando...", aiMsgId);
             scrollChat();
 
             try {
@@ -215,25 +224,36 @@
                     body: JSON.stringify({ message: text, model })
                 });
                 const data = await res.json();
-                document.getElementById(aiId).innerHTML = data.text;
-                chats[currentChatId].messages.push({ role: 'ai', text: data.text, model });
+                document.getElementById(aiMsgId).innerHTML = format(data.text);
+                chats[currentId].messages.push({ role: 'ai', text: data.text, model });
                 localStorage.setItem('xyzz_chats', JSON.stringify(chats));
             } catch (e) {
-                document.getElementById(aiId).innerText = "Error.";
+                document.getElementById(aiMsgId).innerText = "Error.";
             }
             scrollChat();
         }
 
-        function appendUserUI(text) {
-            document.getElementById('chat-flow').innerHTML += `<div class="msg-row"><div class="msg-user">${text}</div></div>`;
+        function appendUserUI(t) {
+            document.getElementById('chat-flow').innerHTML += `<div class="msg-row"><div class="msg-user">${t}</div></div>`;
+            scrollChat();
         }
 
         function appendAiUI(model, text, id = '') {
             document.getElementById('chat-flow').innerHTML += `
                 <div class="msg-row msg-ai">
-                    <div class="ai-icon-box">${LOGOS[model]}</div>
-                    <div class="ai-text" id="${id}">${text}</div>
+                    <div class="ai-icon-circle">${LOGOS[model]}</div>
+                    <div class="ai-text" id="${id}">${format(text)}</div>
                 </div>`;
+        }
+
+        function format(t) {
+            return t.replace(/```([\s\S]*?)```/g, (m, c) => `<pre><span class="copy-tag" onclick="copy(this)">Copiar</span><code>${c.trim()}</code></pre>`);
+        }
+
+        function copy(btn) {
+            navigator.clipboard.writeText(btn.nextElementSibling.innerText);
+            btn.innerText = "¡Copiado!";
+            setTimeout(() => btn.innerText = "Copiar", 2000);
         }
 
         function scrollChat() {
@@ -245,4 +265,4 @@
         renderHistory();
     </script>
 </body>
-                                                       </html>
+                                                                                     </html>
